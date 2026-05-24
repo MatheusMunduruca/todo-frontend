@@ -1,0 +1,57 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 460px;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.tail {
+  position: absolute;
+  top: 60px;
+  left: -28px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 18px 30px 18px 0;
+  border-color: transparent #E8D5A8 transparent transparent;
+  filter: drop-shadow(-3px 1px 0 #8B6F47);
+  z-index: 1;
+}
+
+.box {
+  background: linear-gradient(135deg, #F5E8C8 0%, #E8D5A8 100%);
+  border: 3px solid #8B6F47;
+  border-radius: 10px;
+  padding: 22px 28px;
+  position: relative;
+  box-shadow:
+    0 0 0 1px #5A4530 inset,
+    0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.box::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  border: 1px dashed #8B6F47;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.message {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 17px;
+  color: #3D2410;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}

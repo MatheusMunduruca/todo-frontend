@@ -1,0 +1,38 @@
+.gregorWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.8));
+  transition: transform 0.4s ease;
+  position: relative;
+  z-index: 3;
+}
+
+.gregor {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+.idle {
+  animation: bobble 5s ease-in-out infinite;
+}
+
+.happy {
+  animation: bobble 1.8s ease-in-out infinite;
+}
+
+@keyframes bobble {
+  0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+  50% { transform: translateY(-6px) rotate(0.6deg); }
+}
+
+.smoke {
+  animation: smokeRise 4s ease-in-out infinite;
+  transform-origin: 300px 280px;
+}
+
+@keyframes smokeRise {
+  0%, 100% { opacity: 0.6; transform: translate(0, 0); }
+  50% { opacity: 1; transform: translate(8px, -6px); }
+}

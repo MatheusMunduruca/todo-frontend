@@ -1,0 +1,52 @@
+.scene {
+  position: relative;
+  width: 100%;
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  filter: drop-shadow(0 14px 36px rgba(0, 0, 0, 0.75));
+}
+
+.background {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.character {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform: translate(8%, 26%);
+  /* Sharp cut at the counter line — Gregor appears behind the bar */
+  mask-image: linear-gradient(to bottom, black 0%, black 62%, transparent 64%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 62%, transparent 64%);
+}
+
+/* Candle flicker overlay */
+.imageWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 45% 38%, rgba(255, 170, 60, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 80% 75%, rgba(255, 130, 30, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  animation: flicker 4.5s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.65; }
+  55% { opacity: 0.85; }
+}

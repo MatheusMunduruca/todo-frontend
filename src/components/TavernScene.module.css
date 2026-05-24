@@ -1,0 +1,52 @@
+.scene {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 0 0;
+  margin-bottom: 30px;
+  z-index: 2;
+}
+
+.shelf {
+  width: 100%;
+  max-width: 720px;
+  height: 90px;
+  margin-bottom: -10px;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+}
+
+.middle {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.barrelLeft, .barrelRight {
+  width: 100px;
+  height: 140px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.7));
+}
+
+.counter {
+  width: 100%;
+  max-width: 720px;
+  height: 70px;
+  margin-top: -30px;
+  filter: drop-shadow(0 -6px 14px rgba(0, 0, 0, 0.5));
+  position: relative;
+  z-index: 4;
+}
+
+@media (max-width: 720px) {
+  .barrelLeft, .barrelRight {
+    width: 70px;
+    height: 100px;
+  }
+  .middle { gap: 8px; }
+}

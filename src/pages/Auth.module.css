@@ -1,0 +1,255 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #3D2410 0%, #1A0F08 70%, #000000 100%);
+}
+
+/* Wood plank texture */
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 78px,
+      rgba(0, 0, 0, 0.35) 78px,
+      rgba(0, 0, 0, 0.35) 80px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(60, 30, 10, 0.4) 0,
+      rgba(60, 30, 10, 0.4) 6px,
+      rgba(30, 15, 5, 0.4) 6px,
+      rgba(30, 15, 5, 0.4) 12px
+    );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Candle glow */
+.container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 165, 0, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+  animation: flicker 4s ease-in-out infinite;
+}
+
+.fadeOut {
+  animation: fadeOut 1.6s ease-in forwards;
+}
+
+/* Decorative side banners */
+.bannerLeft, .bannerRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  background: linear-gradient(180deg, #6B0F0F 0%, #3D0000 50%, #6B0F0F 100%);
+  border: 3px solid #B8860B;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.bannerLeft {
+  left: 20px;
+}
+.bannerRight {
+  right: 20px;
+}
+
+.bannerEmblem {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFD700 0%, #B8860B 100%);
+  border: 3px solid #5A3D20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 36px;
+  color: #3D2410;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* Hanging lanterns */
+.lantern {
+  position: absolute;
+  top: 0;
+  width: 50px;
+  text-align: center;
+  z-index: 3;
+}
+.lantern::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 90px;
+  background: #2C1810;
+  margin: 0 auto 4px;
+}
+.lanternBody {
+  width: 50px;
+  height: 60px;
+  background: radial-gradient(circle at 50% 40%, #FFE066 0%, #FFA500 40%, #8B4513 100%);
+  border: 2px solid #2C1810;
+  border-radius: 8px 8px 12px 12px;
+  box-shadow: 0 0 25px rgba(255, 165, 0, 0.6);
+  animation: flicker 3s ease-in-out infinite;
+}
+.lantern1 { left: 18%; }
+.lantern2 { right: 18%; }
+
+.card {
+  background:
+    linear-gradient(135deg, #F5E8C8 0%, #D8C098 100%);
+  border: 4px solid #5A3D20;
+  border-radius: 8px;
+  padding: 44px 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 4;
+  box-shadow:
+    0 0 0 2px #B8860B inset,
+    0 0 0 6px #2C1810 inset,
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(255, 165, 0, 0.2);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  border: 1px dashed #8B6F47;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.title {
+  font-family: 'MedievalSharp', cursive;
+  font-size: 32px;
+  color: #5A1A0A;
+  text-align: center;
+  margin-bottom: 6px;
+  text-shadow: 1px 1px 0 #C5B89E;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-family: 'Crimson Text', Georgia, serif;
+  color: #5A3D20;
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.divider {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #8B6F47;
+  font-size: 18px;
+  letter-spacing: 8px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input {
+  padding: 12px 16px;
+  border: 2px solid #8B6F47;
+  background: #FFF8E7;
+  border-radius: 4px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 16px;
+  color: #3D2410;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.input:focus {
+  border-color: #B8860B;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.3);
+}
+
+.input::placeholder {
+  color: #A08866;
+  font-style: italic;
+}
+
+.button {
+  padding: 13px;
+  background: linear-gradient(180deg, #8B0000 0%, #5A0000 100%);
+  color: #FFD700;
+  border: 2px solid #2C1810;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  margin-top: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 215, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #A00000 0%, #6A0000 100%);
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #5A0000;
+  font-size: 14px;
+  text-align: center;
+  background: #F5C2C0;
+  padding: 9px 12px;
+  border: 1px solid #8B0000;
+  border-radius: 4px;
+  font-style: italic;
+}
+
+.link {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  color: #5A3D20;
+  font-style: italic;
+}
+
+.link a {
+  color: #8B0000;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link a:hover {
+  text-decoration: underline;
+}

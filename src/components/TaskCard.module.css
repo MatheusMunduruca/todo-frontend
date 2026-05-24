@@ -1,0 +1,131 @@
+.card {
+  background: linear-gradient(135deg, #F5E8C8 0%, #D8C098 100%);
+  border: 2px solid #5A3D20;
+  border-left-width: 6px;
+  border-radius: 6px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow:
+    0 0 0 1px #B8860B inset,
+    0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateX(2px);
+  box-shadow:
+    0 0 0 1px #B8860B inset,
+    0 6px 14px rgba(0, 0, 0, 0.5);
+}
+
+.card.Pending {
+  border-left-color: #B8860B;
+}
+
+.card.InProgress {
+  border-left-color: #4A6FA5;
+}
+
+.card.Done {
+  border-left-color: #5A8B4F;
+  opacity: 0.75;
+  background: linear-gradient(135deg, #E5D5B0 0%, #C0AA80 100%);
+}
+
+.content {
+  flex: 1;
+}
+
+.title {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #3D2410;
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.card.Done .title {
+  text-decoration: line-through;
+  color: #6B5530;
+}
+
+.description {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 14px;
+  color: #5A3D20;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid;
+}
+
+.badgePending {
+  background: #FFE8B0;
+  color: #6B5008;
+  border-color: #B8860B;
+}
+
+.badgeInProgress {
+  background: #C8D9F0;
+  color: #1F3A60;
+  border-color: #4A6FA5;
+}
+
+.badgeDone {
+  background: #C8E0BC;
+  color: #2F5025;
+  border-color: #5A8B4F;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.nextBtn, .deleteBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  border: 2px solid #5A3D20;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.nextBtn {
+  background: linear-gradient(180deg, #B8860B 0%, #8B6508 100%);
+  color: #FFFAE0;
+}
+
+.nextBtn:hover {
+  background: linear-gradient(180deg, #D4A017 0%, #A07308 100%);
+  transform: translateY(-1px);
+}
+
+.deleteBtn {
+  background: linear-gradient(180deg, #8B0000 0%, #5A0000 100%);
+  color: #FFD7D0;
+  font-size: 13px;
+}
+
+.deleteBtn:hover {
+  background: linear-gradient(180deg, #A00000 0%, #6A0000 100%);
+  transform: translateY(-1px);
+}

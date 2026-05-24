@@ -1,0 +1,44 @@
+.counter {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #3D2410 0%, #1A0F08 100%);
+  border: 2px solid #B8860B;
+  border-radius: 12px;
+  padding: 10px 18px 10px 12px;
+  box-shadow:
+    0 0 0 1px #5A4530 inset,
+    0 6px 20px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(255, 215, 0, 0.15);
+  z-index: 50;
+}
+
+.bag {
+  width: 42px;
+  height: 42px;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.4));
+}
+
+.amount {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFD700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.4), 1px 1px 2px rgba(0, 0, 0, 0.8);
+  display: inline-block;
+  min-width: 36px;
+  text-align: center;
+}
+
+.pop {
+  animation: coinPop 0.6s ease-out;
+}
+
+@keyframes coinPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); color: #FFF59D; }
+  100% { transform: scale(1); }
+}
