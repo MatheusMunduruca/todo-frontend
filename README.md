@@ -1,6 +1,6 @@
 # Taverna do Gregor
 
-Aplicação web de gerenciamento de tarefas com uma temática medieval imersiva. As "tarefas" são missões dadas por **Gregor**, o anão atendente de uma taverna, que recompensa o usuário com ouro a cada missão cumprida.
+Aplicação web de gerenciamento de tarefas com temática medieval imersiva. As tarefas são missões dadas por **Gregor**, o anão atendente de uma taverna, que recompensa o usuário com ouro a cada missão cumprida.
 
 Construída em **React 18 + Vite**, consumindo a [Todo API](https://github.com/MatheusMunduruca/todo-api) (.NET 8) com autenticação JWT.
 
@@ -12,29 +12,36 @@ Em vez de uma to-do list tradicional, o usuário entra em uma taverna onde Grego
 
 > *"Bem... e que missão você procura aqui hoje?"*
 
-Cada missão criada vira uma tarefa no banco. Ao concluí-la, Gregor parabeniza o viajante e entrega uma recompensa em ouro (10 a 100), acumulada em um contador persistente.
+Cada missão criada vira uma tarefa no banco. Ao concluí-la, Gregor parabeniza o viajante e entrega uma recompensa em ouro (10–100), acumulada em um contador persistente por conta de usuário.
 
 ---
 
 ## Funcionalidades
 
-### Funcionais
-- Cadastro e login de usuários com autenticação **JWT**
-- CRUD completo de missões (criar, listar, atualizar status, excluir)
-- Filtro de missões por status: **A Iniciar**, **Em Curso**, **Cumpridas**
-- Sistema de recompensa em ouro com persistência local
-- Formatação dinâmica do contador: `999` → `1K` → `1M` → `1B` → `1T` → `999T+`
-- Rotas protegidas (redireciona para login se não autenticado)
+### Gerenciamento de missões
+- Cadastro e login com autenticação **JWT**
+- CRUD completo de missões (criar com título e descrição, listar, atualizar status, excluir)
+- Filtro por status: **A Iniciar**, **Em Curso**, **Cumpridas**
+- Rotas protegidas — redireciona para login se não autenticado
 
-### Experiência
-- Personagem interativo com sistema de diálogos contextuais
-- Trilha sonora medieval de fundo (YouTube IFrame API)
-- Sons ambientes da taverna (conversas e risadas em intervalos aleatórios)
-- Efeito sonoro de recompensa ao receber ouro
-- Som de passos durante a transição de login para a taverna
-- Controle de volume global com slider e persistência de preferência
-- Transições suaves entre telas (fade in/out)
-- Iluminação dinâmica de vela tremulando
+### Sistema de recompensas
+- Ouro aleatório (10–100) ao concluir cada missão
+- Contador persistente **separado por conta de usuário**
+- Formatação dinâmica: `999` → `1K` → `1M` → `1B` → `1T` → `999T+`
+
+### Experiência imersiva
+- Personagem **Gregor** com diálogos contextuais:
+  - Saudação ao entrar na taverna
+  - Confirmação ao criar missão
+  - Parabenização ao concluir, com valor de ouro ganho
+- Diálogo dura **15 segundos** ou some imediatamente ao clicar
+- Trilha sonora medieval (YouTube IFrame API) com controle de volume
+- Sons ambientes da taverna (conversas e risadas em intervalos aleatórios de 35–95s)
+- Efeito sonoro de moedas ao receber ouro
+- Som de passos na transição de login → taverna
+- **Controle de volume global** com slider — afeta todos os sons simultaneamente
+- Transição suave entre telas (fade in/out de 1.6s)
+- Todos os sons param completamente ao fazer logout
 
 ---
 
@@ -47,9 +54,29 @@ Cada missão criada vira uma tarefa no banco. Ao concluí-la, Gregor parabeniza 
 | HTTP Client | Axios |
 | Build | Vite 5 |
 | Estilização | CSS Modules |
+| Testes | Vitest + React Testing Library |
 | Tipografia | Google Fonts (MedievalSharp, Cinzel, Crimson Text) |
 | Áudio | HTML5 Audio + YouTube IFrame API |
-| Persistência local | localStorage (token JWT, ouro, volume) |
+| Persistência local | localStorage (token JWT, ouro por usuário, volume) |
+
+---
+
+## Testes
+
+38 testes automatizados cobrindo utilitários e componentes principais.
+
+```bash
+npm test          # executa uma vez
+npm run test:watch  # modo watch
+```
+
+| Arquivo | Testes | Cobertura |
+|---|---|---|
+| `formatGold.test.js` | 12 | Toda a lógica de formatação (0, K, M, B, T, 999T+) |
+| `GoldCounter.test.jsx` | 5 | Renderização com diferentes valores |
+| `TaskCard.test.jsx` | 10 | Título, descrição, badges, ciclo de status, delete |
+| `DialogBox.test.jsx` | 3 | Renderização de mensagem e children |
+| `Login.test.jsx` | 5 | Login, erro, loading, campos, link |
 
 ---
 
@@ -58,21 +85,21 @@ Cada missão criada vira uma tarefa no banco. Ao concluí-la, Gregor parabeniza 
 ```
 src/
 ├── components/
-│   ├── GregorScene.jsx      # Cena da taverna (background + personagem)
-│   ├── DialogBox.jsx        # Balão de fala em estilo pergaminho
-│   ├── GoldCounter.jsx      # Contador de ouro com animação
-│   ├── MusicPlayer.jsx      # Player com volume + toggle
-│   ├── AmbientSounds.jsx    # Sons aleatórios da taverna
-│   └── TaskCard.jsx         # Card de missão
+│   ├── GregorScene.jsx      # Cena da taverna (background + personagem em camadas)
+│   ├── DialogBox.jsx        # Balão de fala com clique para dispensar
+│   ├── GoldCounter.jsx      # Contador com animação e formatação
+│   ├── MusicPlayer.jsx      # Controle de volume + toggle play/pause
+│   ├── AmbientSounds.jsx    # Sons aleatórios responsivos ao volume global
+│   └── TaskCard.jsx         # Card de missão com ciclo de status
 ├── pages/
 │   ├── Login.jsx
 │   ├── Register.jsx
-│   └── Tasks.jsx            # Página principal (taverna)
+│   └── Tasks.jsx
 ├── services/
 │   └── api.js               # Axios + interceptor JWT
 └── utils/
     ├── formatGold.js        # Formatação K/M/B/T
-    └── useVolume.js         # Hook de volume global
+    └── useVolume.js         # Hook de volume global com persistência
 ```
 
 ---
@@ -100,25 +127,30 @@ Os efeitos sonoros não estão versionados. Para a experiência completa, baixe 
 | Arquivo | Descrição |
 |---|---|
 | `tavern-ambience.mp3` | Conversa baixa de fundo (loop) |
-| `chatter.mp3` | Conversa pontual |
-| `laugh.mp3` | Risada coletiva |
-| `gold.mp3` | Efeito de moedas (recompensa) |
-| `footsteps.mp3` | Passos em piso de madeira |
+| `chatter.mp3` | Conversa pontual aleatória |
+| `laugh.mp3` | Risada coletiva aleatória |
+| `gold.mp3` | Efeito de moedas ao receber recompensa |
+| `footsteps.mp3` | Passos na transição de login |
 
-Se os arquivos não estiverem presentes, a aplicação funciona normalmente em silêncio.
+Sem os arquivos, a aplicação funciona normalmente em silêncio.
 
 ### Imagens
 
 Duas imagens são esperadas em `public/`:
-- `tavern-bg.png` — cenário da taverna sem o personagem
-- `gregor-only.png` — Gregor isolado com fundo transparente
+
+| Arquivo | Descrição |
+|---|---|
+| `tavern-bg.png` | Cenário da taverna sem o personagem |
+| `gregor-only.png` | Gregor isolado com fundo transparente |
 
 ---
 
 ## Decisões técnicas
 
-- **CSS Modules** ao invés de framework (Tailwind, styled-components) para manter controle fino sobre a temática visual sem dependências extras.
-- **YouTube IFrame API** para a trilha sonora — permite controle programático de volume mantendo a fonte original.
-- **Sons em camadas separadas** (loop ambiente + sons aleatórios + eventos pontuais) com volumes proporcionais para evitar fadiga auditiva.
-- **Persistência via localStorage** mantém o estado de ouro e preferências entre sessões sem necessidade de tabela extra no backend.
-- **Sistema de diálogo baseado em estado** (`idle` / `happy`) controla expressões do personagem e animações do balão.
+- **CSS Modules** para controle fino da temática visual sem dependências extras.
+- **Camadas separadas de imagem** (background + personagem) permitem posicionamento independente do Gregor via CSS, simulando que ele está atrás do balcão.
+- **YouTube IFrame API** para a trilha sonora com controle programático de volume.
+- **Sons em camadas** (loop ambiente + eventos aleatórios + pontuais) com volumes proporcionais para evitar fadiga auditiva.
+- **Hook `useVolume`** com eventos customizados garante que o slider afete todos os sons em tempo real, incluindo os que já estão tocando.
+- **Ouro por usuário** armazenado com chave `gold-{email}` no localStorage — sem necessidade de tabela extra no backend.
+- **Sistema de diálogo baseado em estado** (`idle` / `happy`) controla expressões e duração do balão de fala.
