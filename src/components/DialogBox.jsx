@@ -1,12 +1,19 @@
 import styles from './DialogBox.module.css'
 
-export default function DialogBox({ message, children }) {
+export default function DialogBox({ message, onDismiss, children }) {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} onClick={onDismiss} style={{ cursor: onDismiss ? 'pointer' : 'default' }}>
       <div className={styles.tail} />
       <div className={styles.box}>
         <p className={styles.message}>{message}</p>
-        {children}
+        {onDismiss && !children && (
+          <p className={styles.hint}>clique para continuar...</p>
+        )}
+        {children && (
+          <div onClick={(e) => e.stopPropagation()}>
+            {children}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -12,10 +12,15 @@ export default function AmbientSounds() {
   const playingAudiosRef = useRef([])
   const volume = useVolume()
 
+  // Atualiza volume da ambiência em tempo real quando o slider muda
   useEffect(() => {
     if (ambienceRef.current) {
       ambienceRef.current.volume = Math.min(1, volume * AMBIENCE_RATIO)
     }
+    // Atualiza sons aleatórios que estejam tocando agora
+    playingAudiosRef.current.forEach((audio) => {
+      audio.volume = Math.min(1, volume * RANDOM_RATIO)
+    })
   }, [volume])
 
   useEffect(() => {
@@ -49,7 +54,6 @@ export default function AmbientSounds() {
         ambienceRef.current.pause()
         ambienceRef.current.currentTime = 0
       }
-      // Hard-stop any random sounds currently playing
       playingAudiosRef.current.forEach((audio) => {
         audio.pause()
         audio.currentTime = 0

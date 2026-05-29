@@ -27,14 +27,16 @@ export default function Tasks() {
   const [loading, setLoading] = useState(true)
   const [adding, setAdding] = useState(false)
   const [dialog, setDialog] = useState({ message: GREETING, mood: 'idle', showForm: true })
-  const [gold, setGold] = useState(() => Number(localStorage.getItem('gold') || 0))
+  const userEmail = localStorage.getItem('userEmail') || 'default'
+  const goldKey = `gold-${userEmail}`
+  const [gold, setGold] = useState(() => Number(localStorage.getItem(goldKey) || 0))
   const navigate = useNavigate()
   const userName = localStorage.getItem('userName') || 'Viajante'
   const dialogTimer = useRef(null)
 
   useEffect(() => {
-    localStorage.setItem('gold', String(gold))
-  }, [gold])
+    localStorage.setItem(goldKey, String(gold))
+  }, [gold, goldKey])
 
   useEffect(() => {
     fetchTasks()
@@ -56,12 +58,15 @@ export default function Tasks() {
     }
   }
 
-  const showTemporaryDialog = (message, mood = 'idle', duration = 3000) => {
+  const resetDialog = () => {
+    clearTimeout(dialogTimer.current)
+    setDialog({ message: GREETING, mood: 'idle', showForm: true })
+  }
+
+  const showTemporaryDialog = (message, mood = 'idle', duration = 15000) => {
     clearTimeout(dialogTimer.current)
     setDialog({ message, mood, showForm: false })
-    dialogTimer.current = setTimeout(() => {
-      setDialog({ message: GREETING, mood: 'idle', showForm: true })
-    }, duration)
+    dialogTimer.current = setTimeout(resetDialog, duration)
   }
 
   const handleRequestMission = async (e) => {
@@ -75,9 +80,9 @@ export default function Tasks() {
       })
       setTasks((prev) => [data, ...prev])
       setMissionForm({ title: '', description: '' })
-      showTemporaryDialog(CONFIRM, 'happy', 3000)
+      showTemporaryDialog(CONFIRM, 'happy')
     } catch {
-      showTemporaryDialog('Hmm... algo deu errado, viajante.', 'idle', 2500)
+      showTemporaryDialog('Hmm... algo deu errado, viajante.', 'idle')
     } finally {
       setAdding(false)
     }
@@ -91,7 +96,7 @@ export default function Tasks() {
       if (status === 'Done') {
         const reward = Math.floor(Math.random() * 91) + 10
         setGold((g) => Math.min(g + reward, 999_999_999_999_999_999))
-        showTemporaryDialog(`${PRAISE} +${reward} de ouro!`, 'happy', 3200)
+        showTemporaryDialog(`${PRAISE} +${reward} de ouro!`, 'happy')
         try {
           const goldAudio = new Audio('/sounds/gold.mp3')
           const v = Number(localStorage.getItem('app-volume') ?? 0.25)
@@ -100,7 +105,7 @@ export default function Tasks() {
         } catch {}
       }
     } catch {
-      showTemporaryDialog('Hmm... algo deu errado, viajante.', 'idle', 2500)
+      showTemporaryDialog('Hmm... algo deu errado, viajante.', 'idle')
     }
   }
 
@@ -109,7 +114,7 @@ export default function Tasks() {
       await api.delete(`/api/tasks/${id}`)
       setTasks((prev) => prev.filter((t) => t.id !== id))
     } catch {
-      showTemporaryDialog('Hmm... não consegui descartar essa.', 'idle', 2500)
+      showTemporaryDialog('Hmm... não consegui descartar essa.', 'idle')
     }
   }
 
@@ -171,7 +176,7 @@ export default function Tasks() {
             <GregorScene mood={dialog.mood} />
 
             <div className={styles.dialogOverlay}>
-              <DialogBox message={dialog.message}>
+              <DialogBox message={dialog.message} onDismiss={!dialog.showForm ? resetDialog : undefined}>
                 {dialog.showForm && (
                   <form onSubmit={handleRequestMission} className={styles.missionForm}>
                     <input
