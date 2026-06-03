@@ -23,6 +23,23 @@ export default function Register() {
       localStorage.setItem('token', data.token)
       localStorage.setItem('userName', data.name)
       localStorage.setItem('userEmail', data.email)
+      localStorage.setItem('userGold', String(data.goldBalance ?? 0))
+
+      // Toca o som de gold ao receber as moedas de boas-vindas
+      if (data.goldBalance > 0) {
+        try {
+          const goldAudio = new Audio('/sounds/gold.mp3')
+          const v = Number(localStorage.getItem('app-volume') ?? 0.25)
+          goldAudio.volume = Math.min(1, v * 1.4)
+          goldAudio.play().catch(() => {})
+        } catch {}
+      }
+
+      // Salva o diálogo de boas-vindas para o Gregor exibir ao entrar
+      if (data.welcomeDialogue) {
+        sessionStorage.setItem('welcomeDialogue', data.welcomeDialogue)
+      }
+
       setFadingOut(true)
       try {
         const footsteps = new Audio('/sounds/footsteps.mp3')

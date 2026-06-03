@@ -27,16 +27,33 @@ export default function Tasks() {
   const [loading, setLoading] = useState(true)
   const [adding, setAdding] = useState(false)
   const [dialog, setDialog] = useState({ message: GREETING, mood: 'idle', showForm: true })
-  const userEmail = localStorage.getItem('userEmail') || 'default'
-  const goldKey = `gold-${userEmail}`
-  const [gold, setGold] = useState(() => Number(localStorage.getItem(goldKey) || 0))
+  const [gold, setGold] = useState(() => Number(localStorage.getItem('userGold') || 0))
   const navigate = useNavigate()
   const userName = localStorage.getItem('userName') || 'Viajante'
   const dialogTimer = useRef(null)
 
+  // Busca o saldo real de gold do backend ao carregar
   useEffect(() => {
-    localStorage.setItem(goldKey, String(gold))
-  }, [gold, goldKey])
+    api.get('/api/auth/gold')
+      .then(({ data }) => {
+        setGold(data.gold)
+        localStorage.setItem('userGold', String(data.gold))
+      })
+      .catch(() => {})
+  }, [])
+
+  // Exibe diálogo de boas-vindas se for a primeira vez (vindo do registro)
+  useEffect(() => {
+    const welcome = sessionStorage.getItem('welcomeDialogue')
+    if (welcome) {
+      sessionStorage.removeItem('welcomeDialogue')
+      // Pequeno delay para a cena carregar antes do diálogo
+      setTimeout(() => {
+        showTemporaryDialog(welcome, 'happy', 12000)
+      }, 800)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     fetchTasks()
@@ -95,7 +112,17 @@ export default function Tasks() {
 
       if (status === 'Done') {
         const reward = Math.floor(Math.random() * 91) + 10
-        setGold((g) => Math.min(g + reward, 999_999_999_999_999_999))
+
+        // Sincroniza com o backend e atualiza estado local
+        try {
+          const { data: goldData } = await api.post('/api/auth/gold/add', { amount: reward })
+          setGold(goldData.gold)
+          localStorage.setItem('userGold', String(goldData.gold))
+        } catch {
+          // fallback local se o backend falhar
+          setGold((g) => g + reward)
+        }
+
         showTemporaryDialog(`${PRAISE} +${reward} de ouro!`, 'happy')
         try {
           const goldAudio = new Audio('/sounds/gold.mp3')
@@ -121,6 +148,7 @@ export default function Tasks() {
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('userName')
+    localStorage.removeItem('userGold')
     navigate('/login')
   }
 

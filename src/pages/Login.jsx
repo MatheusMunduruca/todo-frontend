@@ -26,6 +26,7 @@ export default function Login() {
       localStorage.setItem('token', data.token)
       localStorage.setItem('userName', data.name)
       localStorage.setItem('userEmail', data.email)
+      localStorage.setItem('userGold', String(data.goldBalance ?? 0))
       setFadingOut(true)
       try {
         const footsteps = new Audio('/sounds/footsteps.mp3')
