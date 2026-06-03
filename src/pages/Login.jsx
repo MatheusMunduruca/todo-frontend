@@ -88,6 +88,15 @@ export default function Login() {
         <p className={styles.link}>
           Sem pergaminhos? <Link to="/register">Forjar conta</Link>
         </p>
+
+        <div className={styles.rudolf}>
+          <p className={styles.rudolfLink}>
+            🧪 Quer verificar o mercado local?{' '}
+            <a href="http://localhost:5174" target="_blank" rel="noreferrer">
+              Visite o Empório do Rudolf
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   )

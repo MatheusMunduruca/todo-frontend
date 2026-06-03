@@ -253,3 +253,30 @@
 .link a:hover {
   text-decoration: underline;
 }
+
+/* Link para o Empório do Rudolf */
+.rudolf {
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed #8B6F47;
+  text-align: center;
+}
+
+.rudolfLink {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 13px;
+  color: #5A3D20;
+  font-style: italic;
+  margin: 0;
+}
+
+.rudolfLink a {
+  color: #5A0080;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.rudolfLink a:hover {
+  color: #7B00B8;
+  text-decoration: underline;
+}

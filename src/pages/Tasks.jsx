@@ -126,8 +126,8 @@ export default function Tasks() {
         showTemporaryDialog(`${PRAISE} +${reward} de ouro!`, 'happy')
         try {
           const goldAudio = new Audio('/sounds/gold.mp3')
-          const v = Number(localStorage.getItem('app-volume') ?? 0.25)
-          goldAudio.volume = Math.min(1, v * 1.4)
+          const v = Number(localStorage.getItem('app-volume') ?? 0.6)
+          goldAudio.volume = Math.min(1, Math.max(0.75, v * 2.0))
           goldAudio.play().catch(() => {})
         } catch {}
       }
