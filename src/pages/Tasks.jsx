@@ -161,6 +161,7 @@ export default function Tasks() {
         <h1 className={styles.tavernTitle}>Taverna do Gregor</h1>
         <div className={styles.headerRight}>
           <span className={styles.greeting}>Olá, {userName}</span>
+          <GoldCounter gold={gold} inline />
           <button onClick={logout} className={styles.logoutBtn}>Sair</button>
         </div>
       </header>
@@ -234,7 +235,6 @@ export default function Tasks() {
         </section>
       </main>
 
-      <GoldCounter gold={gold} />
       <MusicPlayer />
       <AmbientSounds />
     </div>
