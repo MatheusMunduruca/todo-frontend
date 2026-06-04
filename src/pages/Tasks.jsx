@@ -111,7 +111,7 @@ export default function Tasks() {
       setTasks((prev) => prev.map((t) => (t.id === id ? data : t)))
 
       if (status === 'Done') {
-        const reward = Math.floor(Math.random() * 91) + 10
+        const reward = Math.floor(Math.random() * 176) + 75   // 75 a 250 de ouro
 
         // Sincroniza com o backend e atualiza estado local
         try {
