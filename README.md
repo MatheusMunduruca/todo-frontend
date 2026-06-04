@@ -6,13 +6,23 @@ Construída em **React 18 + Vite**, consumindo a [Todo API](https://github.com/M
 
 ---
 
+## 🌌 Universo compartilhado
+
+A Taverna do Gregor faz parte de um ecossistema com o **[Empório do Rudolf](https://github.com/MatheusMunduruca/alchemist-frontend)** (loja de alquimia):
+
+- **Login único:** uma conta criada aqui funciona no Empório e vice-versa (mesma chave JWT, mesma tabela de usuários).
+- **Economia compartilhada:** o saldo de **Gold Coins** é persistido no backend e dividido entre os dois sites. O ouro ganho cumprindo missões com o Gregor é gasto comprando itens com o Rudolf.
+- A tela de login tem um atalho: *"Quer verificar o mercado local? Visite o Empório do Rudolf"*.
+
+---
+
 ## Conceito
 
 Em vez de uma to-do list tradicional, o usuário entra em uma taverna onde Gregor o recebe e oferece missões:
 
 > *"Bem... e que missão você procura aqui hoje?"*
 
-Cada missão criada vira uma tarefa no banco. Ao concluí-la, Gregor parabeniza o viajante e entrega uma recompensa em ouro (10–100), acumulada em um contador persistente por conta de usuário.
+Cada missão criada vira uma tarefa no banco. Ao concluí-la, Gregor parabeniza o viajante e entrega uma recompensa em ouro (**75–250**), persistida no backend e compartilhada com o Empório do Rudolf.
 
 ---
 
@@ -25,8 +35,9 @@ Cada missão criada vira uma tarefa no banco. Ao concluí-la, Gregor parabeniza 
 - Rotas protegidas — redireciona para login se não autenticado
 
 ### Sistema de recompensas
-- Ouro aleatório (10–100) ao concluir cada missão
-- Contador persistente **separado por conta de usuário**
+- Ouro aleatório (**75–250**) ao concluir cada missão
+- Saldo **persistido no backend** (`todo_db.Users.GoldBalance`) e **compartilhado com o Empório do Rudolf**
+- Saldo exibido no cabeçalho, sincronizado a cada acesso
 - Formatação dinâmica: `999` → `1K` → `1M` → `1B` → `1T` → `999T+`
 
 ### Experiência imersiva
@@ -152,5 +163,5 @@ Duas imagens são esperadas em `public/`:
 - **YouTube IFrame API** para a trilha sonora com controle programático de volume.
 - **Sons em camadas** (loop ambiente + eventos aleatórios + pontuais) com volumes proporcionais para evitar fadiga auditiva.
 - **Hook `useVolume`** com eventos customizados garante que o slider afete todos os sons em tempo real, incluindo os que já estão tocando.
-- **Ouro por usuário** armazenado com chave `gold-{email}` no localStorage — sem necessidade de tabela extra no backend.
+- **Ouro persistido no backend** (`todo_db.Users.GoldBalance`), compartilhado com o Empório do Rudolf via login único — o localStorage funciona apenas como cache para exibição imediata.
 - **Sistema de diálogo baseado em estado** (`idle` / `happy`) controla expressões e duração do balão de fala.
